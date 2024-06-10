@@ -14,7 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
+from django.conf.urls.static import static
 from django.urls import path
 from beeapp import views
 from beeapp.views import CustomLoginView, CustomLogoutView
@@ -26,4 +28,4 @@ urlpatterns = [
     path('detect/', views.detect_bee, name='detect_bee'),
     path('result/', views.display_results, name='display_results'),
     path('image/', views.process_image, name='process_image'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
