@@ -1,7 +1,29 @@
-Aby korzystać z widoków (views), należy wpisać w wyszukiwarkę (browser) lockalhost:8000/(linki napisane w urls.py - współpraca z widokami (views))
+# My Django Project
 
-W pierwszej kolejności należy wpisać "python manage.py makemigrations a następnie python manage.py migrate", jeżeli baza danych nie jest utworzona
+A brief description of what this project does and who it's for.
 
-Aby uruchomić stronę, należy używać "python manage.py runserver"
+## Features
 
-PLEASE TRANSLATE README.md FROM POLISH TO ENGLISH ON GOOGLE TRANSLATE
+- bee
+- bee_images
+- beeapp
+- templates
+
+## Prerequisites
+
+- Python 3.x
+- Django 3.x or higher
+- SQLite
+
+## Installation
+
+### Clone the repository
+
+```bash
+git clone https://github.com/yourusername/bee_django.git
+venv\Scripts\Activate
+cd bee
+
+python manage.py makemigration
+python manage.py migrate
+python manage.py runserver
