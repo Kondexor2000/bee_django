@@ -20,7 +20,7 @@ A brief description of what this project does and who it's for.
 ### Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/bee_django.git
+git clone https://github.com/Kondexor2000/bee_django.git
 venv\Scripts\Activate
 cd bee
 
