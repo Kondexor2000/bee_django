@@ -19,9 +19,12 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path
 from beeapp import views
-from beeapp.views import CustomLoginView, CustomLogoutView
+from beeapp.views import CustomLoginView, CustomLogoutView, SignUpView, EditProfileView, DeleteAccountView
 
 urlpatterns = [
+    path('signup/', SignUpView.as_view(), name='signup'),
+    path('edit-profile/', EditProfileView.as_view(), name='edit_profile'),
+    path('delete-account/', DeleteAccountView.as_view(), name='delete_account'),
     path('admin/', admin.site.urls),
     path('', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),

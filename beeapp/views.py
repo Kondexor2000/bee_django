@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 import numpy as np
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse, HttpResponse
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
@@ -15,8 +16,10 @@ from django.template.loader import get_template
 from django.template import TemplateDoesNotExist
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from keras.utils import to_categorical
 from .models import Bee
+from django.http import HttpResponse, Http404
 
 # Helper function to check if template exists
 def check_template(template_name, request):
@@ -26,6 +29,55 @@ def check_template(template_name, request):
         messages.error(request, 'Brak pliku HTML')
         return False
     return True
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'signup.html'
+    success_url = reverse_lazy('login')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not check_template(self.template_name, request):
+            return HttpResponse("Template not found.")
+        if request.user.is_authenticated:
+            messages.info(request, "You are already registered and logged in.")
+            return redirect('login')
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Registration successful. Please log in.")
+        return response
+
+class EditProfileView(LoginRequiredMixin, UpdateView):
+    form_class = UserChangeForm
+    template_name = 'edit_profile.html'
+    success_url = reverse_lazy('login')
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Profile updated successfully.")
+        return response
+
+class DeleteAccountView(LoginRequiredMixin, DeleteView):
+    template_name = 'delete_account.html'
+    success_url = reverse_lazy('login')
+
+    def get_object(self, queryset=None):
+        if self.request.user.is_authenticated:
+            return self.request.user
+        raise Http404("You are not logged in.")
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            response = super().delete(request, *args, **kwargs)
+            messages.success(request, "Account deleted successfully.")
+            return response
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+            return redirect('delete_account')
 
 # Custom login view
 class CustomLoginView(LoginView):

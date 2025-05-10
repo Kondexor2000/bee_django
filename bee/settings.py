@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8e!a2n2qsxz9f4k$ujqm#jzm#sjaft$!)2#1*=gnwyqd)08z&7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'bee.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bee',  # Replace with your database name
+        'USER': 'postgres',  # Replace with your database user
+        'PASSWORD': 'postgres',  # Replace with your database password
+        'HOST': 'localhost',  # Or your database server's address
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
 
